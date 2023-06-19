@@ -1,5 +1,4 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -8,8 +7,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Client {
     private final String url;
@@ -26,9 +23,9 @@ public class Client {
         return httpClient.execute(request);
     }
 
-    public <T> List<T> deserializable(InputStream stream, Class<T> type) throws IOException {
-        CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, type);
-        return mapper.readValue(stream, listType);
+    public <T> T deserializable(InputStream stream, Class<T> type) throws IOException {
+
+        return mapper.readValue(stream, type);
     }
 
     private CloseableHttpClient getHttpClient() {
